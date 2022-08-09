@@ -15,18 +15,17 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public void save(MultipartFile file) {
-
-        try {
+    public void save(MultipartFile file) throws IOException {
+        if(Helper.checkExcelFormat(file)) {
             List<Customer> customers = Helper.convertExcelToListOfCustomer(file.getInputStream());
-            this.customerRepository.saveAll(customers);
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            customerRepository.saveAll(customers);
+        } else if(Helper.checkCsvFormat(file)) {
+            List<Customer> customer = Helper.convertCsvToListOfCustomer(file.getInputStream());
+            customerRepository.saveAll(customer);
         }
     }
 
     public List<Customer> getAllProducts() {
-        return this.customerRepository.findAll();
+        return customerRepository.findAll();
     }
 }

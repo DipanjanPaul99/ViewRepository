@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -19,20 +20,19 @@ public class CustomerController {
     private CustomerService customerService;
 
     @PostMapping("/customer/upload")
-    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) throws IOException {
         if (Helper.checkExcelFormat(file)) {
-            //true
-
-            this.customerService.save(file);
-
-            return ResponseEntity.ok(Map.of("message", "File is uploaded and data is saved to db"));
+            customerService.save(file);
+            return ResponseEntity.ok(Map.of("message", "Excel File is uploaded and data is saved to db"));
+        } else if (Helper.checkCsvFormat(file)) {
+            customerService.save(file);
+            return ResponseEntity.ok(Map.of("message", "Csv File is uploaded and data is saved to db"));
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please upload excel file ");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Please Upload Excel FIle");
     }
 
     @GetMapping("/customer")
     public List<Customer> getAllProduct() {
-        return this.customerService.getAllProducts();
+        return customerService.getAllProducts();
     }
-
 }
