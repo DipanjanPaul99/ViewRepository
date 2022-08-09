@@ -15,17 +15,34 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    public void save(MultipartFile file) throws IOException {
-        if(Helper.checkExcelFormat(file)) {
-            List<Customer> customers = Helper.convertExcelToListOfCustomer(file.getInputStream());
-            customerRepository.saveAll(customers);
-        } else if(Helper.checkCsvFormat(file)) {
-            List<Customer> customer = Helper.convertCsvToListOfCustomer(file.getInputStream());
-            customerRepository.saveAll(customer);
+    //To check the file  format for xlsx
+    public void saveExcelFormat(MultipartFile file) throws IOException {
+        try {
+            if (Helper.checkExcelFormat(file)) {
+                List<Customer> customers = Helper.convertExcelToListOfCustomer(file.getInputStream());
+                customerRepository.saveAll(customers);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
-    public List<Customer> getAllProducts() {
+    // To check  file format for csv format
+    public void saveCsvFormat(MultipartFile file) {
+        try {
+            if (Helper.checkCsvFormat(file)) {
+                List<Customer> customer = Helper.convertCsvToListOfCustomer(file.getInputStream());
+                customerRepository.saveAll(customer);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // To get the list of customer imported from excel to database
+
+    public List<Customer> getAllCustomer() {
         return customerRepository.findAll();
     }
 }
