@@ -22,37 +22,37 @@ public class CustomerController {
 
     @PostMapping("/customer/upload")
     public ResponseEntity<ResponseMessage> upload(@RequestParam("file") MultipartFile file) throws IOException {
-        String message = "";
+        String data = "";
         if (Helper.checkExcelFormat(file)) {
             try {
                 customerService.saveExcelFormat(file);
-                message = "Xlxs File is uploaded and data is saved to db: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+                data = "Xlsx File is uploaded and data is saved to db: " + file.getOriginalFilename();
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(data));
             } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+                data = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(data));
             }
         }
-        message = "Please upload a xlxs file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        data = "Please upload a Xlsx file!";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(data));
     }
 
 
     @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
-        String message = "";
+        String data = "";
         if (Helper.checkCsvFormat(file)) {
             try {
                 customerService.saveCsvFormat(file);
-                message = "Csv File is uploaded and data is saved to db: " + file.getOriginalFilename();
-                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+                data = "Csv File is uploaded and data is saved to db: " + file.getOriginalFilename();
+                return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(data));
             } catch (Exception e) {
-                message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+                data = "Could not upload the file: " + file.getOriginalFilename() + "!";
+                return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(data));
             }
         }
-        message = "Please upload a csv file!";
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(message));
+        data = "Please upload a csv file!";
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(data));
     }
 
 

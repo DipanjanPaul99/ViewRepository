@@ -32,6 +32,7 @@ public class Helper {
         }
     }
 
+   // Check that file is of csv type or not
     public static boolean checkCsvFormat(MultipartFile file) {
         String contentType = file.getContentType();
         if (contentType != null && contentType.equals("text/csv")) {
