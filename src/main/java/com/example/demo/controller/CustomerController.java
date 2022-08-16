@@ -13,6 +13,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ *
+ * This is a Main controller
+ */
 
 @RestController
 public class CustomerController {
@@ -38,12 +42,12 @@ public class CustomerController {
     }
 
 
-    @PostMapping("/upload")
+  /*  @PostMapping("/upload")
     public ResponseEntity<ResponseMessage> uploadFile(@RequestParam("file") MultipartFile file) {
         String data = "";
         if (Helper.checkCsvFormat(file)) {
             try {
-                customerService.saveCsvFormat(file);
+//                customerService.saveCsvFormat(file);
                 data = "Csv File is uploaded and data is saved to db: " + file.getOriginalFilename();
                 return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(data));
             } catch (Exception e) {
@@ -54,7 +58,7 @@ public class CustomerController {
         data = "Please upload a csv file!";
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(data));
     }
-
+*/
 
     @GetMapping("/customer")
     public List<Customer> getAllProduct() {
