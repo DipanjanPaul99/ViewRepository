@@ -1,29 +1,42 @@
 package com.example.demo.entity;
 
+import com.vladmihalcea.hibernate.type.json.JsonStringType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
+
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
+@TypeDefs({
+        @TypeDef(name = "json", typeClass = JsonStringType.class)
+})
 public class Customer {
     @Id
     @Column(name = "id")
     private int id;
+
     @Column(name = "name")
     private  String name;
-    @Column(name = "address")
-    private  String address;
+
+    @Column
+    @Embedded
+    private  Address address;
+
     @Column(name = "contactno")
     private  String contactNo;
 
-    public Customer(int id, String name, String address, String contactNo) {
+    public Customer() {
+    }
+
+    public Customer(int id, String name, Address address, String contactNo) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.contactNo = contactNo;
-    }
-
-    public Customer(){
     }
 
     public int getId() {
@@ -42,11 +55,11 @@ public class Customer {
         this.name = name;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 

@@ -1,6 +1,8 @@
 package com.example.demo.helper;
 
+import com.example.demo.entity.Address;
 import com.example.demo.entity.Customer;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -20,9 +22,9 @@ public class Helper {
     private Helper() {
     }
 
-    /*
-    * Check that file is of Excel type or not
-    **/
+    /**
+     *   Check that file is of Excel type or not
+     */
     public static boolean checkExcelFormat(MultipartFile file) {
         String contentType = file.getContentType();
         if (contentType != null && contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
@@ -32,7 +34,9 @@ public class Helper {
         }
     }
 
-   // Check that file is of csv type or not
+   /**
+    *    Check that file is of csv type or not
+    */
     public static boolean checkCsvFormat(MultipartFile file) {
         String contentType = file.getContentType();
         if (contentType != null && contentType.equals("text/csv")) {
@@ -42,9 +46,9 @@ public class Helper {
         }
     }
 
-    /*
+    /**
     * Convert excel to list of customer
-    **/
+    */
     public static List<Customer> convertExcelToListOfCustomer(InputStream is) {
         List<Customer> list = new ArrayList<>();
         try {
@@ -71,7 +75,7 @@ public class Helper {
                             c.setName(cell.getStringCellValue());
                             break;
                         case 2:
-                            c.setAddress(cell.getStringCellValue());
+                            c.setAddress(new ObjectMapper().readValue(cell.getStringCellValue(), Address.class));
                             break;
                         case 3:
                             c.setContactNo(String.valueOf(cell.getNumericCellValue()));
@@ -99,7 +103,7 @@ public class Helper {
                 Customer tutorial = new Customer(
                         Integer.parseInt(csvRecord.get("id")),
                         csvRecord.get("name"),
-                        csvRecord.get("address"),
+                        new ObjectMapper().readValue(csvRecord.get("address"), Address.class),
                         csvRecord.get("contactNo")
                 );
                 tutorials.add(tutorial);

@@ -15,7 +15,9 @@ public class CustomerService {
     @Autowired
     private CustomerRepository customerRepository;
 
-    //To check the file  format for xlsx
+    /**
+     * To check the file  format for xlsx
+     */
     public void saveExcelFormat(MultipartFile file) throws IOException {
         try {
             if (Helper.checkExcelFormat(file)) {
@@ -27,7 +29,9 @@ public class CustomerService {
         }
     }
 
-    // To check  file format for csv format
+    /**
+     * To check  file format for csv format
+     */
     public void saveCsvFormat(MultipartFile file) {
         try {
             if (Helper.checkCsvFormat(file)) {
@@ -37,11 +41,11 @@ public class CustomerService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
-    // To get the list of customer imported from excel to database
-
+    /**
+     * To get the list of customer imported from excel to database
+     */
     public List<Customer> getAllCustomer() {
         return customerRepository.findAll();
     }
