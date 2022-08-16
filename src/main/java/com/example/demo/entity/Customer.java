@@ -1,9 +1,5 @@
 package com.example.demo.entity;
 
-import com.vladmihalcea.hibernate.type.json.JsonStringType;
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -11,9 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-@TypeDefs({
-        @TypeDef(name = "json", typeClass = JsonStringType.class)
-})
 public class Customer {
     @Id
     @Column(name = "id")
@@ -70,4 +63,6 @@ public class Customer {
     public void setContactNo(String contactNo) {
         this.contactNo = contactNo;
     }
+
+
 }
