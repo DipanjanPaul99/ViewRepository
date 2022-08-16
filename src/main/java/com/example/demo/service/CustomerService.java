@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class CustomerService {
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -32,7 +33,7 @@ public class CustomerService {
     /**
      * To check  file format for csv format
      */
-   /* public void saveCsvFormat(MultipartFile file) {
+    public void saveCsvFormat(MultipartFile file) {
         try {
             if (Helper.checkCsvFormat(file)) {
                 List<Customer> customer = Helper.convertCsvToListOfCustomer(file.getInputStream());
@@ -41,18 +42,12 @@ public class CustomerService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     /**
      * To get the list of customer imported from excel to database
      */
     public List<Customer> getAllCustomer() {
         return customerRepository.findAll();
-    }
-
-
-    public void softDelete(Integer id) {
-        Customer customer = customerRepository.findById(id).get();
-        customerRepository.save(customer);
     }
 }

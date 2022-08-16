@@ -13,25 +13,21 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 public class Helper {
 
-    private Helper() {
-    }
+    private Helper() {}
 
     /**
      *   Check that file is of Excel type or not
      */
     public static boolean checkExcelFormat(MultipartFile file) {
         String contentType = file.getContentType();
-        if (contentType != null && contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
-            return true;
-        } else {
-            return false;
-        }
+        return contentType != null && contentType.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     }
 
    /**
@@ -39,53 +35,47 @@ public class Helper {
     */
     public static boolean checkCsvFormat(MultipartFile file) {
         String contentType = file.getContentType();
-        if (contentType != null && contentType.equals("text/csv")) {
-            return true;
-        } else {
-            return false;
-        }
+        return contentType != null && contentType.equals("text/csv");
     }
 
     /**
     * Convert excel to list of customer
     */
-    public static List<Customer> convertExcelToListOfCustomer(InputStream is) {
+    public static List<Customer> convertExcelToListOfCustomer(InputStream inputStream) {
         List<Customer> list = new ArrayList<>();
         try {
-            XSSFWorkbook workbook = new XSSFWorkbook(is);
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
             XSSFSheet sheet = workbook.getSheetAt(0);
             int rowNumber = 0;
-            Iterator<Row> iterator = sheet.iterator();
-            while (iterator.hasNext()) {
-                Row row = iterator.next();
+            for (Row row : sheet) {
                 if (rowNumber == 0) {
                     rowNumber++;
                     continue;
                 }
                 Iterator<Cell> cells = row.iterator();
-                int cid = 0;
-                Customer c = new Customer();
+                int customerId = 0;
+                Customer customer = new Customer();
                 while (cells.hasNext()) {
                     Cell cell = cells.next();
-                    switch (cid) {
+                    switch (customerId) {
                         case 0:
-                            c.setId((int) cell.getNumericCellValue());
+                            customer.setId((int) cell.getNumericCellValue());
                             break;
                         case 1:
-                            c.setName(cell.getStringCellValue());
+                            customer.setName(cell.getStringCellValue());
                             break;
                         case 2:
-                            c.setAddress(new ObjectMapper().readValue(cell.getStringCellValue(), Address.class));
+                            customer.setAddress(new ObjectMapper().readValue(cell.getStringCellValue(), Address.class));
                             break;
                         case 3:
-                            c.setContactNo(String.valueOf(cell.getNumericCellValue()));
+                            customer.setContactNo(String.valueOf(cell.getNumericCellValue()));
                             break;
                         default:
                             break;
                     }
-                    cid++;
+                    customerId++;
                 }
-                list.add(c);
+                list.add(customer);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,7 +84,7 @@ public class Helper {
     }
 
     public static List<Customer> convertCsvToListOfCustomer(InputStream is) {
-        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+        try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
             List<Customer> tutorials = new ArrayList<>();
