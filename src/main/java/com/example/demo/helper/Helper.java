@@ -83,10 +83,12 @@ public class Helper {
         return list;
     }
 
+    /**
+     * Convert csv to list of customer
+     */
     public static List<Customer> convertCsvToListOfCustomer(InputStream is) {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8));
-             CSVParser csvParser = new CSVParser(fileReader,
-                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
+             CSVParser csvParser = new CSVParser(fileReader, CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
             List<Customer> tutorials = new ArrayList<>();
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
             for (CSVRecord csvRecord : csvRecords) {
@@ -103,7 +105,4 @@ public class Helper {
             throw new RuntimeException("fail to parse CSV file: " + e.getMessage());
         }
     }
-
-
-
 }

@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.NewCustomerClass;
 import com.example.demo.helper.Helper;
 import com.example.demo.message.ResponseMessage;
 import com.example.demo.service.CustomerService;
@@ -61,7 +62,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customer")
-    public List<Customer> getAllProduct() {
+    public List<NewCustomerClass> getAllProduct() {
         return customerService.getAllCustomer();
     }
 }

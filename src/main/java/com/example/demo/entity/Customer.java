@@ -15,8 +15,8 @@ public class Customer {
     @Column(name = "name")
     private  String name;
 
-    @Column
     @Embedded
+    @Column
     private  Address address;
 
     @Column(name = "contactno")

@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Customer;
+import com.example.demo.entity.NewCustomerClass;
 import com.example.demo.helper.Helper;
 import com.example.demo.repository.CustomerRepository;
+import com.example.demo.repository.NewCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,6 +17,9 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private NewCustomerRepository newCustomerRepository;
 
     /**
      * To check the file  format for xlsx
@@ -47,7 +52,7 @@ public class CustomerService {
     /**
      * To get the list of customer imported from excel to database
      */
-    public List<Customer> getAllCustomer() {
-        return customerRepository.findAll();
+    public List<NewCustomerClass> getAllCustomer() {
+        return newCustomerRepository.findAll();
     }
 }
