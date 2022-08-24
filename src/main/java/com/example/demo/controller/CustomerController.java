@@ -62,7 +62,7 @@ public class CustomerController {
     }
 
     @GetMapping("/customer")
-    public List<NewCustomerClass> getAllProduct() {
-        return customerService.getAllCustomer();
+    public ResponseEntity<List<NewCustomerClass>> getAllProduct() {
+        return new ResponseEntity<>(customerService.getAllCustomer(),HttpStatus.OK);
     }
 }
